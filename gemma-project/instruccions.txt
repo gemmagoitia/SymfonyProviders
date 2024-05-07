@@ -1,0 +1,22 @@
+Aquest és un document de text on jo, Gemma, aniré apuntant les passes seguides per la implementació d'aquest projecte.
+
+1) Crear un projecte en Symfony, més especificament en la versió número 4.
+    Comanda Terminal PowerShell: composer create-project symfony/website-skeleton  gemma-project "4.4.*"
+
+2) Modificació del fitxer .env per a que contingui les dades del client de la base de dades 
+3) Creem la Entitat del Proveidor amb la informació que ens demanen
+    Comanda Terminal PowerShell: php bin/console make:entity Provider 
+
+4) Un cop tinguem els mètodes corresponents, demanarem des de la terminal amb
+    Comanda Terminal PowerShell: php bin/console make:migration 
+    que crei dins de la base de dades les columnes de la entitat. En cas de que modifiquem els camps de les entitats 
+    s'encarregarà d'aplicar tots i cadascun dels canvis mitjançant instruccions SQL.
+    A continuació escriurem
+    Comanda Terminal PowerShell: php bin/console doctrine:migrations:migrate  
+    per a aplicar realment els canvis a la base de dades, és a dir que en el pas anterior ho deixavem preparat i en este ho apliquem. 
+
+5) Creem el controller del Proveidor
+    Comanda Terminal PowerShell: php bin/console make:controller ProviderController 
+    El controller és l'encarregat d'usar els mètodes encarregats d'agafar les dades del repositori i "enviar-les" a les vistes
+
+6) Creem un repositori, aquest serà el que es comuniqui amb la base de dades
