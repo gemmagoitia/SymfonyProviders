@@ -61,7 +61,6 @@ class Provider
     {
         $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
-        $this->activity = true; // Posarem que el proveidor està actiu per defecte, ja si ha de ser fals serà modificat a la vista d'edició
     }
 
     // Getters i Setters de cada una de les propietats

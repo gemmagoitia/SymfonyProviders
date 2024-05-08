@@ -19,4 +19,6 @@ Aquest és un document de text on jo, Gemma, aniré apuntant les passes seguides
     Comanda Terminal PowerShell: php bin/console make:controller ProviderController 
     El controller és l'encarregat d'usar els mètodes encarregats d'agafar les dades del repositori i "enviar-les" a les vistes
 
-6) Creem un repositori, aquest serà el que es comuniqui amb la base de dades
+6) Creem un repositori, aquest serà el que es comuniqui amb la base de dades. Necessitem poder:
+    CREAR, MODIFICAR, ELIMINAR i VISUALITZAR.
+    

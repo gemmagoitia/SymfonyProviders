@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Proveedores</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPT  Providers</title><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<style>
+    body{
+        background-color: #f0f0f0;
+    }
+    #tableContainer{
+        display: flex;
+        justify-content: center;
+        background-color: aqua;
+    }
+
+    #providersTable{
+        width: 100%;
+        background-color: bisque;
+        border-collapse: collapse;
+        border-color: aqua;
+        border-radius: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 12px;
+        margin-bottom: 2em;
+    }
+
+    h1{
+        text-align: center;
+        color:#982323;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    main{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding: 1em;
+    }
+
+    button {
+        width: fit-content; 
+    }
+
+
+    /* Per pantalles més petites de 600px */
+ /*@media (max-width: 600px) {
+  .child {
+    flex: 1 0 calc(100% - 4em); /* Això fa que cada fill ocupi un 100% de l'amplada del container pare */
+  /*}
+  #titol{
+    visibility: hidden;
+  }
+ }
+ 
+ /* Per pantalles entre 600px i 900px */
+ /*@media (min-width: 600px) and (max-width: 900px) {
+  .child {
+    flex: 1 0 calc(50% - 4em); /* Això fa que cada fill ocupi un 50% de l'amplada del container pare */
+ /* }
+ } 
+ 
+ /* Per pantalles més grans de 900px */
+ /*@media (min-width: 900px) {
+  .child {
+    flex: 1 0 calc(30% - 4em); /* Això fa que cada fill ocupi un 30% de l'amplada del container pare */
+ /* }
+ }
+ /* Els restem a tots el tamany del gap per a que faci els calculs sense tenir.los en compte */
+</style>
+<body>
+    <header>
+        <h1>Provider's List</h1>
+    </header>
+    <nav>
+
+    </nav>
+    <main id="tableContainer">
+        <table id="providersTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Type</th>
+                    <th>Activity</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for provider in providers %}
+                <tr>
+                <td><a href='{{ path('showProvider')}}'>{{ provider.id }}</a></td>
+                <td>{{ provider.name }}</td>
+                <td>{{ provider.email }}</td>
+                <td>{{ provider.phone }}</td>
+                <td>{{ provider.type }}</td>
+                <td>{{ provider.activity }}</td>
+                <td><form action="{{ path('editProvider', {'id': provider.id}) }}" method="post" style="display: inline;">
+                        <button type="submit" class="btn-edit" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?')">E</button>
+                </form>></td>
+                <td><form action="{{ path('deleteProvider', {'id': provider.id}) }}" method="delete" style="display: inline;">
+                    <button type="submit" class="btn-delete" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?')">D</button>
+                </form></td>
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="button" onclick="window.location.href='{{ path('newProvider')}}'">Register New Provider</>
+    </main>
+</body>
+</html>

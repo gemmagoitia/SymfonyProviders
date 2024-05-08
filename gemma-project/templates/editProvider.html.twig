@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPT  Providers</title><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<style>
+    *{
+        font-family: 'Poppins', sans-serif;
+    }
+
+    #detailsContainer{
+        margin-left: 2em;
+        margin-right: 2em;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-even;
+    }
+
+    .child{
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        padding: 1em;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background-color: #982323;
+    }
+
+    h1{
+        text-align: center;
+        color:#982323;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    h2{
+        margin-right: 15px;
+        font-size: 15px;
+    }
+
+    #activeOption{
+        color: #2d9823;
+    }
+
+    #inactiveOption{
+        color: #982323;
+    }
+
+    button{
+        margin-left: 2.5em;
+    }
+
+    /* Per pantalles més petites de 600px */
+    @media (max-width: 600px) {
+        .child {
+            flex: 1 0 calc(100% - 4em); /* Això fa que cada fill ocupi un 100% de l'amplada del container pare */
+        }
+    }
+
+     /* Per pantalles entre 600px i 900px */
+    @media (min-width: 600px) and (max-width: 900px) {
+        .child {
+            flex: 1 0 calc(50% - 4em); /* Això fa que cada fill ocupi un 50% de l'amplada del container pare */
+        }
+    } 
+ 
+    /* Per pantalles més grans de 900px */
+    @media (min-width: 900px) {
+        .child {
+            flex: 1 0 calc(50% - 4em); /* Això fa que cada fill ocupi un 50% de l'amplada del container pare */
+        }
+    }
+</style>
+<body>
+    <header>
+        <h1>Details</h1>
+    </header>
+    <div id="detailsContainer">
+        <div class="child">
+            <h2>Id:</h2>
+            <p></p>
+        </div>
+        <div class="child">
+            <h2>Creation Date:</h2>
+            <p></p>
+        </div>
+        <div class="child">
+            <h2>Name:</h2>
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="child">
+            <h2>Email:</h2>
+            <input type="text" id="email" name="email">
+        </div>
+        <div class="child">
+            <h2>Phone:</h2>
+            <input type="text" id="phone" name="phone">
+        </div>
+        <div class="child">
+            <h2>Type:</h2>
+            <form>
+                <select name="type" id="type">
+                    <option value="Hotel">Hotel</option>
+                    <option value="Pista">Pista</option>
+                    <option value="Complemento">Complemento</option>
+                </select>
+            </form>
+        </div>
+        <div class="child">
+            <h2>Activity:<br></h2>
+            <form>
+                <select name="activity" id="activity">
+                    <option id="activeOption" value="true">Active</option>
+                    <option id="inactiveOption" value="true">Inactive</option>
+                </select>
+            </form>
+        </div>
+        <div class="child">
+            <h2>Last Modification:</h2>
+            <p></p>
+        </div>
+    </div>
+    <button type="button" onclick="window.location.href='{{ path('editProvider')}}'">Update</>
+</body>
+</html>
