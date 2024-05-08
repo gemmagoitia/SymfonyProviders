@@ -1,11 +1,27 @@
-index:
+homePage:
     path: /
     controller: App\Controller\ProviderController::index
+
+editProvider:
+    path: /editprovider/{id}
+    controller: App\Controller\ProviderController::editProvider
+
+deleteProvider:
+    path: /deleteprovider/{id}
+    controller: App\Controller\ProviderController::deleteProvider
+
+showProvider:
+    path: /showprovider/{id}
+    controller: App\Controller\ProviderController::showProvider
+
+inactiveProviders:
+    path: /inactiveproviders
+    controller: App\Controller\ProviderController::showInactiveProviders
 
 newProvider:
     path: /newProvider
     controller: App\Controller\ProviderController::addProvider
 
-editProvider:
-    path: /editprovider/{id}
-    controller: App\Controller\ProviderController::editProvider
+showNewProvider:
+    path: /createProvider
+    controller: App\Controller\ProviderController::showNewProvider

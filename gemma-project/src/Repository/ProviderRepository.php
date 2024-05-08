@@ -15,13 +15,6 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Provider|null findOneBy(array $criteria, array $orderBy = null)
  * @method Provider[]    findAll()
  * @method Provider[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @method Provider[]    findAllProviders()
- * @method Provider[]    findAllActive()
- * @method Provider[]    findAllInactive()
- * @method Provider|null findProviderById($id)
- * @method Provider[]    createProvider($provider)
- * @method Provider[]    modifyProvider($provider)
- * @method Provider[]    deleteProvider($id)
  */
 class ProviderRepository extends ServiceEntityRepository
 {
@@ -87,37 +80,37 @@ class ProviderRepository extends ServiceEntityRepository
     // Funció per obtenir tots els proveidors
     public function findAllProviders(){
         return $this-> getEntityManager()
-            ->createQuery('SELECT * FROM App\Entity\Provider provider') // SELECT * FROM `provider`
+            ->createQuery('SELECT prov FROM App\Entity\Provider prov') // SELECT * FROM `provider`
             ->getResult();
     }
 
     // Funció per filtrar els proveidors que estiguin actius
     public function findAllActive(){
         return $this->getEntityManager()
-            ->createQuery(('SELECT * FROM App\Entity\Provider providers WHERE provider.activity = 1'))
+            ->createQuery(('SELECT prov FROM App\Entity\Provider prov WHERE prov.activity = 1'))
             ->getResult();
     }
 
     // Funció per filtrar els proveidors que estiguin insactius
     public function findAllInactive(){
         return $this->getEntityManager()
-            ->createQuery(('SELECT * FROM App\Entity\Provider providers WHERE provider.activity = 0'))
+            ->createQuery(('SELECT prov FROM App\Entity\Provider prov WHERE prov.activity = 0'))
             ->getResult();
     }
 
     // Funció per buscar a un proveidor per el seu id
     public function findProviderById($id):?Provider {
         return $this->getEntityManager()
-            ->createQuery(('SELECT * FROM App\Entity\Provider providers WHERE provider.id = :id'))
+            ->createQuery(('SELECT prov FROM App\Entity\Provider prov WHERE prov.id = :id'))
             ->setParameter('id', $id)
             ->getSingleResult(); 
     }
 
     // MÈTODES PER LA CREACIÓ DE NOUS PROVEIDORS
-    public function createProvider($provider):void{ // Mirar de modificar i que passin els altributs per separat
+    /*public function createProvider($provider):void{ // Mirar de modificar i que passin els altributs per separat
         try {
             // Intentarem inserir les dades del proveidor nou a la base de dades
-            $this->getEntityManager()
+            /*$this->getEntityManager()
             ->createQuery('INSERT INTO App\Entity\Provider providers VALUES (provider.name, provider.email, provider.phone, provider.type, provider.activity) VALUES (name, email, phone, type, activity)')
                 ->setParameter('name', $provider->getName())
                 ->setParameter('email', $provider->getEmail())
@@ -125,8 +118,8 @@ class ProviderRepository extends ServiceEntityRepository
                 ->setParameter('type', $provider->getType())
                 ->setParameter('activity', $provider->getActivity())
                 ->setParameter('id', $provider->getId())
-                ->execute();
-            $this->_em->persist($provider);
+                ->execute();*/
+            /*$this->_em->persist($provider);
             $this->_em->flush();
     
             // Si es pot realitzar correctament retornarem un missatge d'èxit
@@ -135,7 +128,7 @@ class ProviderRepository extends ServiceEntityRepository
             // Si es produeix algun error informarem per pantalla
             echo "There has been an error: " . $e->getMessage();
         }
-    }
+    }*/
 
     // MÈTODES PER L'ACTUALITZACIÓ DE PROVEIDORS
     public function modifyProvider($provider):void{ // Enviem l'id per buscar-lo amb l'altre funció

@@ -83,23 +83,19 @@
     <div id="detailsContainer">
         <div class="child">
             <h2>Id:</h2>
-            <p></p>
-        </div>
-        <div class="child">
-            <h2>Creation Date:</h2>
-            <p></p>
+            <p>{{ provider.id }}</p>
         </div>
         <div class="child">
             <h2>Name:</h2>
-            <input type="text" id="name" name="name">
+            <input type="text" id="name" value={{ provider.name }} required>
         </div>
         <div class="child">
             <h2>Email:</h2>
-            <input type="text" id="email" name="email">
+            <input type="text" id="email" value={{ provider.email }} required>
         </div>
         <div class="child">
             <h2>Phone:</h2>
-            <input type="text" id="phone" name="phone">
+            <input type="text" id="phone" value={{ provider.phone }} required>
         </div>
         <div class="child">
             <h2>Type:</h2>
@@ -115,16 +111,12 @@
             <h2>Activity:<br></h2>
             <form>
                 <select name="activity" id="activity">
-                    <option id="activeOption" value="true">Active</option>
-                    <option id="inactiveOption" value="true">Inactive</option>
+                    <option id="activeOption" value="1">Active</option>
+                    <option id="inactiveOption" value="0">Inactive</option>
                 </select>
             </form>
         </div>
-        <div class="child">
-            <h2>Last Modification:</h2>
-            <p></p>
-        </div>
     </div>
-    <button type="button" onclick="window.location.href='{{ path('editProvider')}}'">Update</>
+    <button type="button" onclick="window.location.href='{{ path('homePage')}}'">Update</>
 </body>
 </html>

@@ -17,7 +17,6 @@
     #tableContainer{
         display: flex;
         justify-content: center;
-        background-color: aqua;
     }
 
     #providersTable{
@@ -37,6 +36,11 @@
         font-family: 'Poppins', sans-serif;
     }
 
+    p{
+        color:#982323;
+        font-family: 'Poppins', sans-serif;
+    }
+
     main{
         display: flex;
         justify-content: center;
@@ -47,6 +51,22 @@
 
     button {
         width: fit-content; 
+    }
+
+    tr{
+        background-color: bisque; 
+    }
+
+    table td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    #createButton{
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
     }
 
 
@@ -85,7 +105,7 @@
     <main id="tableContainer">
         <table id="providersTable">
             <thead>
-                <tr>
+                 <tr>
                     <th>Id</th>
                     <th>Name</th>
                     <th>Email</th>
@@ -97,24 +117,24 @@
                 </tr>
             </thead>
             <tbody>
-            {% for provider in providers %}
-                <tr>
-                <td><a href='{{ path('showProvider')}}'>{{ provider.id }}</a></td>
-                <td>{{ provider.name }}</td>
-                <td>{{ provider.email }}</td>
-                <td>{{ provider.phone }}</td>
-                <td>{{ provider.type }}</td>
-                <td>{{ provider.activity }}</td>
-                <td><form action="{{ path('editProvider', {'id': provider.id}) }}" method="post" style="display: inline;">
-                        <button type="submit" class="btn-edit" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?')">E</button>
-                </form>></td>
-                <td><form action="{{ path('deleteProvider', {'id': provider.id}) }}" method="delete" style="display: inline;">
-                    <button type="submit" class="btn-delete" onclick="return confirm('¿Estás seguro de que deseas eliminar este proveedor?')">D</button>
-                </form></td>
-                </tr>
-            {% endfor %}
+                {% for provider in providers %}
+                    <tr>
+                    <td><a href="{{ path('showProvider', {'id': provider.id}) }}">{{ provider.id }}</a></td>
+                    <td>{{ provider.name }}</td>
+                    <td>{{ provider.email }}</td>
+                    <td>{{ provider.phone }}</td>
+                    <td>{{ provider.type }}</td>
+                    <td>{{ provider.activity }}</td>
+                    <td><a href="{{ path('showProvider', {'id': provider.id}) }}">M</a></td>   
+                    <td><a href="{{ path('deleteProvider', {'id': provider.id}) }}">D</a></td> 
+                    </tr>
+                {% endfor %}
+            </tbody>
         </table>
-        <button type="button" onclick="window.location.href='{{ path('newProvider')}}'">Register New Provider</>
+        {% if providers is empty %}
+            <p>There are 0 providers in the database</p>
+        {% endif %}
     </main>
+    <div id="createButton"><button type="button" onclick="window.location.href='{{ path('showNewProvider')}}'">Register New Provider</></div>
 </body>
 </html>

@@ -48,19 +48,19 @@ class Provider
     /**
      * @ORM\Column(type="datetime")
      */
-    private $created_at;    // Data de creació
+    public $createdAt;    // Data de creació
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $updated_at;    // Data de modificació
+    public $updatedAt;    // Data de modificació
 
 
     // Constructor
     public function __construct()
     {
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     // Getters i Setters de cada una de les propietats
@@ -68,6 +68,13 @@ class Provider
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -133,20 +140,20 @@ class Provider
     // Funció per a saber quan s'ha introduit el proveidor
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
     // Funció per a saber quan s'ha modificat el proveidor
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
     // Funció per a que s'actualitzi la data de modificació
     // Només haurem de modificar la data de modificació de les dades. La de creació no es tocarà
     public function setUpdatedAt(): self
     {
-        $this->updated_at = new \DateTime();
+        $this->updatedAt = new \DateTime();
 
         return $this;
     }

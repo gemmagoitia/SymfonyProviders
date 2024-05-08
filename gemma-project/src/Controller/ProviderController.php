@@ -6,8 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Provider;
+use App\Form\ProviderForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+
+use function PHPSTORM_META\type;
 
 class ProviderController extends AbstractController
 {
@@ -32,27 +35,35 @@ class ProviderController extends AbstractController
     /**
      * @Route("/newProvider", name="newProvider", methods={"POST"})
      */
-    public function addProvider(Request $request): Response
+    public function addProvider(/*Request $request*/): Response
     {
-        // Estem a la pagina on insertem les dades d'un nou proveidor per a ser afegit a la llista
-        return $this->render('/newProvider.html.twig'); // Retornem la vista
-        // Primer hem d'omplir el formulari amb la informació corresponent a cada camp
-        $form = $this->createForm(Provider::class);
-        $form->handleRequest($request);
-        $provider = new Provider();
-        // Inicialitzem les dades del proveidor
-        $provider->setName($form->get('name')->getData());
-        $provider->setEmail($form->get('email')->getData());
-        $provider->setPhone($form->get('phone')->getData());
-        $provider->setType($form->get('type')->getData());
-        $provider->setActivity($form->get('activity')->getData());
+        $name = $_POST['name'] ?? null;
+        $email = $_POST['email'] ?? null;
+        $phone = $_POST['phone'] ?? null;
+        if (empty($name) || empty($email) || empty($phone)) {
+            return $this->redirectToRoute('homePage', ['error' => 'Missing required fields']);
+        }
+        $activity = isset($_POST['activity']) ? ($_POST['activity'] == 1) : false;
+        $type = $_POST['type'] ?? null;
 
-        if($form->isSubmitted() && $form->isValid()){
-            // Si el formulari s'ha enviat i és vàlid, guardarem les dades a la base de dades
-            $this->getDoctrine()->getRepository(Provider::class)->createProvider($provider);
-            $this->em->persist($provider);
-            $this->em->flush();
+        $id = random_int(1000000, PHP_INT_MAX);
+        $em = $this->getDoctrine()->getManager();
+        $provider = new Provider();
+        $provider->setName($name);
+        $provider->setEmail($email);
+        $provider->setPhone($phone);
+        $provider->setActivity($activity);
+        $provider->setId($id);
+        $provider->setType($type);
+
+        try {
+            $em->persist($provider);
+            $em->flush();
             return $this->redirectToRoute('homePage');
+        } catch (\Exception $e) {
+            // Manejo de excepciones aquí
+            // Podrías redireccionar a otra página de error o mostrar un mensaje personalizado
+            return $this->redirectToRoute('homePage', ['error' => 'An error occurred']);
         }
     }
 
@@ -61,12 +72,18 @@ class ProviderController extends AbstractController
      */
     public function showInactiveProviders()
     {
-        $providers = $this->getDoctrine()->getRepository(Provider::class)->findAllInactive();
+        $providers = $this->getDoctrine()->getRepository(Provider::class)->findAll();
         if(empty($providers)){ // Si intentem filtrar pero no hi ha cap inserit, retornarem a la pàgina principal
             return $this->redirectToRoute('homePage');
         }else{ // Sinó mostrarem tots els filtrats
+            $providersFiltrats = array();
+            foreach($providers as $provider){
+                if($provider->getActive() == 0){
+                    array_push($providersFiltrats, $provider);
+                }
+            }
             return $this->render('/homePage.html.twig', [
-                'providers' => $providers,]);
+                'providers' => $providersFiltrats,]);
         }
     }
 
@@ -75,30 +92,41 @@ class ProviderController extends AbstractController
      */
     public function showProvider($id): Response
     {
-        $provider = $this->getDoctrine()->getRepository(Provider::class)->findProviderById($id);
+        $provider = $this->getDoctrine()->getRepository(Provider::class)->findOneBy(['id' => $id]);
         return $this->render('/editProvider.html.twig', [
             'provider' => $provider,]);
     }
 
     /**
-     * @Route("/editprovider/{id}", name="editProvider")
+     * @Route("/editprovider/{id}", name="editProvider", methods={"PUT"})
      */
-    public function editProvider(Request $request, $id): Response
+    public function editProvider($id): Response
     {
-        $provider = $this->getDoctrine()->getRepository(Provider::class)->findProviderById($id);
-        $form = $this->createForm(Provider::class);
-        $form->handleRequest($request);
-        // Actualitzem les dades del proveidor, i si no 'shan modificat tornarem a guardar les que teniem
-        $provider->setName($form->get('name')->getData());
-        $provider->setEmail($form->get('email')->getData());
-        $provider->setPhone($form->get('phone')->getData());
-        $provider->setType($form->get('type')->getData());
-        $provider->setActivity($form->get('activity')->getData());
+        $name = $_POST['name'] ?? null;
+        $email = $_POST['email'] ?? null;
+        $phone = $_POST['phone'] ?? null;
+        if (empty($name) || empty($email) || empty($phone)) {
+            return $this->redirectToRoute('homePage', ['error' => 'Missing required fields']);
+        }
         
-        if($form->isSubmitted() && $form->isValid()){
-            // Si el formulari s'ha enviat i és vàlid, guardarem les dades a la base de dades
-        
-        return $this->redirectToRoute('homePage');
+        $type = $_POST['type'] ?? null;
+        $em = $this->getDoctrine()->getManager();
+        $provider = $em->getRepository(Provider::class)->find($id);
+        $provider->setName($name);
+        $provider->setEmail($email);
+        $provider->setPhone($phone);
+        $activity = isset($_POST['activity']) ? ($_POST['activity'] == 1) : false;
+        $provider->setActivity($activity);
+        $provider->setType($type);
+        $provider->setUpdatedAt();
+
+        try {
+            $em->flush($provider);
+            return $this->redirectToRoute('homePage');
+        } catch (\Exception $e) {
+            // Manejo de excepciones aquí
+            // Podrías redireccionar a otra página de error o mostrar un mensaje personalizado
+            return $this->redirectToRoute('homePage', ['error' => 'An error occurred']);
         }
     }
 
@@ -108,10 +136,37 @@ class ProviderController extends AbstractController
     public function deleteProvider($id): Response
     {
         // Aquesta funció ens permetrà eliminar un proveidor de la llista
-        $provider = $this->getDoctrine()->getRepository(Provider::class)->findProviderById($id);
-        $this->getDoctrine()->getRepository(Provider::class)->deleteProvider($provider);
+        $provider = $this->getDoctrine()->getRepository(Provider::class)->findOneBy(['id' => $id]);
         $this->em->remove($provider);
         $this->em->flush();
         return $this->redirectToRoute('homePage');
+    }
+
+    /**
+     * @Route("/activeProviders", name="activeProviders", methods={"GET"})
+     */
+    public function showActiveProviders()
+    {
+        $providers = $this->getDoctrine()->getRepository(Provider::class)->findAll();
+        if(empty($providers)){ // Si intentem filtrar pero no hi ha cap inserit, retornarem a la pàgina principal
+            return $this->redirectToRoute('homePage');
+        }else{ // Sinó mostrarem tots els filtrats
+            $providersFiltrats = array();
+            foreach($providers as $provider){
+                if($provider->getActive() == 1){
+                    array_push($providersFiltrats, $provider);
+                }
+            }
+            return $this->render('/homePage.html.twig', [
+                'providers' => $providersFiltrats,]);
+        }
+    }
+
+    /**
+     * @Route("/createProvider", name="showNewProvider")
+     */
+    public function showNewProvider(): Response
+    {
+        return $this->render('/newProvider.html.twig');
     }
 }

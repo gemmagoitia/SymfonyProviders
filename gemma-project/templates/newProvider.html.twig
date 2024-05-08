@@ -52,6 +52,7 @@
         color: #982323;
     }
 
+
     /* Per pantalles més petites de 600px */
     @media (max-width: 600px) {
         .child {
@@ -77,18 +78,19 @@
     <header>
         <h1>Complete: </h1>
     </header>
+    <form action="{{ path('newProvider') }}" method="post">
     <div id="detailsContainer">
         <div class="child">
             <h2>Name:</h2>
-            <input type="text" id="name" name="name">
+            <input type="text" id="name" name="name" required>
         </div>
         <div class="child">
             <h2>Email:</h2>
-            <input type="text" id="email" name="email">
+            <input type="email" id="email" name="email" required>
         </div>
         <div class="child">
             <h2>Phone:</h2>
-            <input type="text" id="phone" name="phone">
+            <input type="text" id="phone" name="phone" required>
         </div>
         <div class="child">
             <h2>Type:</h2>
@@ -104,14 +106,15 @@
             <h2>Activity:<br></h2>
             <form>
                 <select name="activity" id="activity">
-                    <option id="activeOption" value="true">Active</option>
-                    <option id="inactiveOption" value="true">Inactive</option>
+                    <option id="activeOption" value="1">Active</option>
+                    <option id="inactiveOption" value="0">Inactive</option>
                 </select>
             </form>
         </div>
         <div class="child">
-            <button type="button" onclick="window.location.href='{{ path('homePage')}}'">Register New Provider</>
+        <button type="submit">Register New Provider</button>
         </div>
     </div>
+    </form>
 </body>
 </html>
