@@ -14,12 +14,24 @@
         font-family: 'Poppins', sans-serif;
     }
 
+    body{
+        background-color: #f0f0f0;
+    }
+
     #detailsContainer{
         margin-left: 2em;
         margin-right: 2em;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-even;
+    }
+
+    main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2em;
+        flex-direction: column;
     }
 
     .child{
@@ -58,7 +70,6 @@
         border: none;
         background: none;
         cursor: pointer;
-        margin-left: 2.1em; 
     }
 
     button {
@@ -112,23 +123,23 @@
     }
 
     /* Per pantalles més petites de 600px */
-    @media (max-width: 640px) {
+    @media (max-width: 660px) {
         .child {
             flex: 1 0 calc(100% - 4em); /* Això fa que cada fill ocupi un 100% de l'amplada del container pare */
         }
     }
 
      /* Per pantalles entre 600px i 900px */
-    @media (min-width: 640px) and (max-width: 900px) {
+    @media (min-width: 660px) and (max-width: 1000px) {
         .child {
             flex: 1 0 calc(50% - 4em); /* Això fa que cada fill ocupi un 50% de l'amplada del container pare */
         }
     } 
  
     /* Per pantalles més grans de 900px */
-    @media (min-width: 900px) {
+    @media (min-width: 1000px) {
         .child {
-            flex: 1 0 calc(50% - 4em); /* Això fa que cada fill ocupi un 50% de l'amplada del container pare */
+            flex: 1 0 calc(30% - 4em); /* Això fa que cada fill ocupi un 50% de l'amplada del container pare */
         }
     }
 </style>
@@ -136,18 +147,19 @@
     <header>
         <h1>Details</h1>
     </header>
+    <main>
     <div id="detailsContainer">
         <div class="child">
             <h2>Id:</h2>
             <p>{{ provider.id }}</p>
         </div>
+         <div class="child">
+            <h2>Name:</h2>
+            <input type="text" id="name" value={{ provider.name }} required>
+        </div>
         <div class="child">
             <h2>Created:</h2>
             <p>{{ provider.createdAt }}</p>
-        </div>
-        <div class="child">
-            <h2>Name:</h2>
-            <input type="text" id="name" value={{ provider.name }} required>
         </div>
         <div class="child">
             <h2>Email:</h2>
@@ -207,9 +219,10 @@
             <h2>Last Modification:</h2>
             <p>{{ provider.updatedAt }}</p>
         </div>
+        <div class="child">
+            <button type="button" onclick="window.location.href='{{ path('homePage')}}'"><p>Update</p><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"stroke-width="4"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" ></path></svg></button>
+        </div>
     </div>
-    <div class="child">
-        <button type="button" onclick="window.location.href='{{ path('homePage')}}'"><p>Update</p><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"stroke-width="4"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" ></path></svg></button>
-    </div>
+    </main>
 </body>
 </html>

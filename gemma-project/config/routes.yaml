@@ -25,3 +25,15 @@ newProvider:
 showNewProvider:
     path: /createProvider
     controller: App\Controller\ProviderController::showNewProvider
+
+hotelProviders:
+    path: /providers/hotel
+    controller: App\Controller\ProviderController::showHotelProviders
+
+pistaProviders:
+    path: /providers/pista
+    controller: App\Controller\ProviderController::showPistaProviders
+
+complementoProviders:
+    path: /providers/complemento
+    controller: App\Controller\ProviderController::showComplementoProviders

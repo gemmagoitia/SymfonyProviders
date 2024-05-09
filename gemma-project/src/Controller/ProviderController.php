@@ -78,7 +78,7 @@ class ProviderController extends AbstractController
         }else{ // Sinó mostrarem tots els filtrats
             $providersFiltrats = array();
             foreach($providers as $provider){
-                if($provider->getActive() == 0){
+                if($provider->getActivity() == 0){
                     array_push($providersFiltrats, $provider);
                 }
             }
@@ -111,15 +111,15 @@ class ProviderController extends AbstractController
         
         $type = $_POST['type'] ?? null;
         $em = $this->getDoctrine()->getManager();
-        $provider = $em->getRepository(Provider::class)->find($id);
+        $provider = $this->getDoctrine()->getRepository(Provider::class)->find($id);
         $provider->setName($name);
         $provider->setEmail($email);
         $provider->setPhone($phone);
         $activity = isset($_POST['activity']) ? ($_POST['activity'] == 1) : false;
         $provider->setActivity($activity);
         $provider->setType($type);
-        $provider->setUpdatedAt();
-
+        
+        return $this->redirectToRoute('homePage');
         try {
             $em->flush($provider);
             return $this->redirectToRoute('homePage');
@@ -153,7 +153,67 @@ class ProviderController extends AbstractController
         }else{ // Sinó mostrarem tots els filtrats
             $providersFiltrats = array();
             foreach($providers as $provider){
-                if($provider->getActive() == 1){
+                if($provider->getActivity() == 1){
+                    array_push($providersFiltrats, $provider);
+                }
+            }
+            return $this->render('/homePage.html.twig', [
+                'providers' => $providersFiltrats,]);
+        }
+    }
+
+    /**
+     * @Route("/providers/pista", name="pistaProviders", methods={"GET"})
+     */
+    public function showPistaProviders()
+    {
+        $providers = $this->getDoctrine()->getRepository(Provider::class)->findAll();
+        if(empty($providers)){ // Si intentem filtrar pero no hi ha cap inserit, retornarem a la pàgina principal
+            return $this->redirectToRoute('homePage');
+        }else{ // Sinó mostrarem tots els filtrats
+            $providersFiltrats = array();
+            foreach($providers as $provider){
+                if($provider->getType() == 'Pista'){
+                    array_push($providersFiltrats, $provider);
+                }
+            }
+            return $this->render('/homePage.html.twig', [
+                'providers' => $providersFiltrats,]);
+        }
+    }
+
+    /**
+     * @Route("/providers/hotel", name="hotelProviders", methods={"GET"})
+     */
+    public function showHotelProviders()
+    {
+        $providers = $this->getDoctrine()->getRepository(Provider::class)->findAll();
+        if(empty($providers)){ // Si intentem filtrar pero no hi ha cap inserit, retornarem a la pàgina principal
+            return $this->redirectToRoute('homePage');
+        }else{ // Sinó mostrarem tots els filtrats
+            $providersFiltrats = array();
+            foreach($providers as $provider){
+                if($provider->getType() == 'Hotel'){
+                    array_push($providersFiltrats, $provider);
+                }
+            }
+            return $this->render('/homePage.html.twig', [
+                'providers' => $providersFiltrats,]);
+        }
+    }
+
+    /**
+     * @Route("/providers/complemento", name="complementoProviders", methods={"GET"})
+     */
+    public function showComplementoProviders()
+    {
+        $providers = $this->getDoctrine()->getRepository(Provider::class)->findAll();
+        if(empty($providers)){ // Si intentem filtrar pero no hi ha cap inserit, retornarem a la pàgina principal
+            return $this->redirectToRoute('homePage');
+        }else{ // Sinó mostrarem tots els filtrats
+            $providersFiltrats = array();
+            foreach($providers as $provider){
+                if($provider->getType() == 'Complemento'){
                     array_push($providersFiltrats, $provider);
                 }
             }

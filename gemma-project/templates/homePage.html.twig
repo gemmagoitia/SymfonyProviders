@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lista de Proveedores</title>
+    <title>PVPT</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VPT  Providers</title><link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,7 @@
 
     #providersTable{
         width: 100%;
-        background-color: bisque;
+        background-color: rgb(240, 233, 212);
         border-collapse: collapse;
         border-radius: 10px;
         font-family: 'Poppins', sans-serif;
@@ -46,6 +46,23 @@
         flex-direction: column;
         align-items: center;
         padding: 1em;
+    }
+
+    nav{
+        padding: 1em;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    a {
+        font-family: 'Poppins', sans-serif;
+        color: black; 
+        font-size: 12px;
+        text-decoration: none; 
+        margin-left: 1em;
+        margin-right: 1em; 
     }
 
     .button {
@@ -142,12 +159,16 @@
         transform-origin: right;
     }
 
-    tr{
+    tbody tr {
         background-color: rgb(240, 233, 212);
+    }
+    
+    tbody tr:nth-child(even) {
+        background-color: #f0f0f0;
     }
 
     table td {
-        padding: 8px;
+        padding: 10px;
         text-align: center;
     }
 
@@ -221,6 +242,7 @@
         justify-content: space-evenly;
     }
 
+
     /* Per pantalles més petites de 600px */
  /*@media (max-width: 600px) {
   .child {
@@ -251,7 +273,12 @@
         <h1>Provider's List</h1>
     </header>
     <nav>
-
+        <span><a href="{{ path('homePage') }}">Home</a></span>
+        <span><a href="{{ path('activeProviders') }}">Active</a></span>
+        <span><a href="{{ path('inactiveProviders') }}">Inactive</a></span>
+        <snap><a href="{{ path('hotelProviders') }}">Hotel</a></snap>
+        <snap><a href="{{ path('pistaProviders') }}">Pista</a></snap>
+        <snap><a href="{{ path('complementoProviders') }}">Complemento</a></snap>
     </nav>
     <main id="tableContainer">
         <table id="providersTable">
