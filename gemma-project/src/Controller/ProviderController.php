@@ -98,7 +98,7 @@ class ProviderController extends AbstractController
     }
 
     /**
-     * @Route("/editprovider/{id}", name="editProvider", methods={"PUT"})
+     * @Route("/editprovider/{id}", name="editProvider", methods={"POST"})
      */
     public function editProvider($id): Response
     {

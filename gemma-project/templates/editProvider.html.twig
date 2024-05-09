@@ -29,7 +29,6 @@
         padding: 1em;
         margin-right: 10px;
         margin-bottom: 10px;
-        background-color: #982323;
     }
 
     h1{
@@ -41,6 +40,7 @@
     h2{
         margin-right: 15px;
         font-size: 15px;
+        color: #982323;
     }
 
     #activeOption{
@@ -51,19 +51,75 @@
         color: #982323;
     }
 
-    button{
-        margin-left: 2.5em;
+
+    button {
+        padding: 0;
+        margin: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+        margin-left: 2.1em; 
+    }
+
+    button {
+        --primary-color: #111;
+        --hovered-color: #c84747;
+        position: relative;
+        display: flex;
+        font-weight: 600;
+        font-size: 15px;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    button p {
+        margin: 0;
+        position: relative;
+        font-size: 15px;
+        color: var(--primary-color);
+    }
+
+    button::after {
+        position: absolute;
+        content: "";
+        width: 0;
+        left: 0;
+        bottom: -7px;
+        background: var(--hovered-color);
+        height: 2px;
+        transition: 0.3s ease-out;
+    }
+
+    button:hover::after {
+        width: 100%;
+    }
+
+    button:hover p::before {
+        width: 100%;
+    }
+
+    button:hover svg {
+        transform: translateX(4px);
+        color: var(--hovered-color);
+    }
+
+    button svg {
+        color: var(--primary-color);
+        transition: 0.2s;
+        position: relative;
+        width: 15px;
+        transition-delay: 0.2s;
     }
 
     /* Per pantalles més petites de 600px */
-    @media (max-width: 600px) {
+    @media (max-width: 640px) {
         .child {
             flex: 1 0 calc(100% - 4em); /* Això fa que cada fill ocupi un 100% de l'amplada del container pare */
         }
     }
 
      /* Per pantalles entre 600px i 900px */
-    @media (min-width: 600px) and (max-width: 900px) {
+    @media (min-width: 640px) and (max-width: 900px) {
         .child {
             flex: 1 0 calc(50% - 4em); /* Això fa que cada fill ocupi un 50% de l'amplada del container pare */
         }
@@ -86,6 +142,10 @@
             <p>{{ provider.id }}</p>
         </div>
         <div class="child">
+            <h2>Created:</h2>
+            <p>{{ provider.createdAt }}</p>
+        </div>
+        <div class="child">
             <h2>Name:</h2>
             <input type="text" id="name" value={{ provider.name }} required>
         </div>
@@ -99,24 +159,57 @@
         </div>
         <div class="child">
             <h2>Type:</h2>
-            <form>
-                <select name="type" id="type">
-                    <option value="Hotel">Hotel</option>
-                    <option value="Pista">Pista</option>
-                    <option value="Complemento">Complemento</option>
-                </select>
-            </form>
+            {% if provider.type == 'Hotel' %}
+                <form>
+                    <select name="type" id="type">
+                        <option value="Hotel">Hotel</option>
+                        <option value="Pista">Pista</option>
+                        <option value="Complemento">Complemento</option>
+                    </select>
+                </form>
+            {% elseif provider.type == 'Pista' %}
+                <form>
+                    <select name="type" id="type">
+                        <option value="Pista">Pista</option>
+                        <option value="Hotel">Hotel</option>
+                        <option value="Complemento">Complemento</option>
+                    </select>
+                </form>
+            {% else %}
+                <form>
+                    <select name="type" id="type">
+                        <option value="Complemento">Complemento</option>
+                        <option value="Pista">Pista</option>
+                        <option value="Hotel">Hotel</option>
+                    </select>
+                </form>
+            {% endif %}
         </div>
         <div class="child">
             <h2>Activity:<br></h2>
-            <form>
-                <select name="activity" id="activity">
-                    <option id="activeOption" value="1">Active</option>
-                    <option id="inactiveOption" value="0">Inactive</option>
-                </select>
-            </form>
+            {% if provider.activity == '0' %}
+                <form>
+                    <select name="activity" id="activity">
+                        <option id="inactiveOption" value="0">Inactive</option>
+                        <option id="activeOption" value="1">Active</option>
+                    </select>
+                </form>
+            {% else %}
+                <form>
+                    <select name="activity" id="activity">
+                        <option id="activeOption" value="1">Active</option>
+                        <option id="inactiveOption" value="0">Inactive</option>
+                    </select>
+                </form>
+            {% endif %}
+        </div>
+        <div class="child">
+            <h2>Last Modification:</h2>
+            <p>{{ provider.updatedAt }}</p>
         </div>
     </div>
-    <button type="button" onclick="window.location.href='{{ path('homePage')}}'">Update</>
+    <div class="child">
+        <button type="button" onclick="window.location.href='{{ path('homePage')}}'"><p>Update</p><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"stroke-width="4"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" ></path></svg></button>
+    </div>
 </body>
 </html>
