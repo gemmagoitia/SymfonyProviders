@@ -118,8 +118,8 @@ class ProviderController extends AbstractController
         $activity = isset($_POST['activity']) ? ($_POST['activity'] == 1) : false;
         $provider->setActivity($activity);
         $provider->setType($type);
+        $provider->setUpdatedAt();
         
-        return $this->redirectToRoute('homePage');
         try {
             $em->flush($provider);
             return $this->redirectToRoute('homePage');

@@ -21,4 +21,9 @@ Aquest és un document de text on jo, Gemma, aniré apuntant les passes seguides
 
 6) Creem un repositori, aquest serà el que es comuniqui amb la base de dades. Necessitem poder:
     CREAR, MODIFICAR, ELIMINAR i VISUALITZAR.
+
+7) Al controller implementarem tots els mètodes que necesitem cridar des de les diferents parts de la web per poder jugar amb les dades de la base de dades i mostrar-les.
+
+8) Clicant l'id a la taula dels proveidors podrem veure els detalls i actualitzar-los. També podrem realitzar aquesta acció des del botó de "llapís".
+    Amb el botó de brossa podrem eliminar files senceres i al navegador podrem filtrar per veure grups de dades. 
     

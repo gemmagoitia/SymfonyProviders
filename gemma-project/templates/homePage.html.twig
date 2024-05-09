@@ -273,12 +273,13 @@
         <h1>Provider's List</h1>
     </header>
     <nav>
-        <span><a href="{{ path('homePage') }}">Home</a></span>
+        <span><a>Filter By:</a></span>
         <span><a href="{{ path('activeProviders') }}">Active</a></span>
         <span><a href="{{ path('inactiveProviders') }}">Inactive</a></span>
         <snap><a href="{{ path('hotelProviders') }}">Hotel</a></snap>
         <snap><a href="{{ path('pistaProviders') }}">Pista</a></snap>
         <snap><a href="{{ path('complementoProviders') }}">Complemento</a></snap>
+        <span><a href="{{ path('homePage') }}">All</a></span>
     </nav>
     <main id="tableContainer">
         <table id="providersTable">
